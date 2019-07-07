@@ -21,6 +21,7 @@ class LoginPage extends Component {
     }
 
     onChange=(evt)=>{
+        this.setState({error:''})
         this.setState({
             [evt.target.name]:evt.target.value 
         })
@@ -30,11 +31,10 @@ class LoginPage extends Component {
         evt.preventDefault();
         const username= this.state.username;
         const password= this.state.password;        
-        this.validateUser(username,password);
-        
+        this.validateUser(username,password);       
         
     }
-
+    
     handleClickShowPassword = () =>{
         this.setState(state=>({showPassword : !state.showPassword}));
     }
@@ -72,6 +72,7 @@ class LoginPage extends Component {
         this.setState({signup:true})
     }
     changeStateHandler =()=>{
+        this.setState({error:''})
         this.setState({signup:false})
     }
     render() {  

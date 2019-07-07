@@ -70,16 +70,15 @@ class RequestPage extends React.Component {
                                     <div key={el._id}><b>{el.creator}</b> has requested a  form {el.status.toLowerCase()} with you.
                                     <br/>
                                       <div>Message: <span style={{color:'#090eea'}}><b><i>{el.case}</i></b></span></div>
-                                    </div>                                  
-                                </ListItemText>
-                                <ListItemSecondaryAction>                                  
+                                    </div>
+                                    <br/>
                                     <Button variant="contained" color="primary" onClick={this.handleApprove.bind(this,el._id)} >
                                       Approve                                      
                                     </Button> 
                                     <Button variant="contained" color="secondary" onClick={this.handleReject.bind(this,el._id)} >
                                       Reject                                      
-                                    </Button>
-                                </ListItemSecondaryAction>
+                                    </Button> 
+                                </ListItemText>
                               </ListItem> 
                       </Paper>
                       <br/>
@@ -95,7 +94,7 @@ class RequestPage extends React.Component {
         <div>
             <section>
                 <h2>No Requests</h2> 
-            </section>
+            </section>            
         </div>
     )
     }

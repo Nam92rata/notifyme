@@ -33,6 +33,7 @@ class SignupPage extends React.Component {
         console.log(evt.target.name,evt.target.value)
         let value = evt.target.value;
         let name = evt.target.name; 
+        this.setState({error:''})
         this.setState( prevState => {
             return { 
                newUser : {
@@ -46,6 +47,7 @@ class SignupPage extends React.Component {
         console.log(evt.target.name,evt.target.value)
         let value = evt.target.value;
         let name = evt.target.name; 
+        this.setState({error:''})
         this.setState( prevState => {
             return { 
                newUser : {

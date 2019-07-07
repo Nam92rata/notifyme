@@ -95,7 +95,7 @@ class Home extends Component {
         response:'',
         selectedTab:'Form',
         open:false,
-        value: ''
+        value: null
       };
       componentDidMount() {
         const endpoint = `https://stormy-crag-26876.herokuapp.com/`;
@@ -156,7 +156,7 @@ class Home extends Component {
                 <div className={classes.root}>               
                 <AppBar position="static">
                     <Toolbar>
-                        <Tabs variant="standard" value={this.state.value} onChange={this.onSelect}  >
+                        <Tabs variant="scrollable" scrollButtons="off" value={this.state.value} onChange={this.onSelect}  >
                             <Tab label="Form" value={0}  component={Link} to="/form" />
                             <Tab label="Pending" value={1}  component={Link} to="/pending"/>
                             <Tab label="Approved" value={2}  component={Link} to="/approved" />
