@@ -9,6 +9,9 @@ import Select from '@material-ui/core/Select';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
+import {connect} from "react-redux";
+import {formPosted} from "./store/actions/formActions";
+
 class FormPage extends React.Component {
   constructor(props){
     super(props)
@@ -79,25 +82,27 @@ handleSubmit= (evt)=>{
         status:status
       };      
     if(creator && creatordept && approver && dept && message){
-        axios.post(`https://secure-depths-88479.herokuapp.com/forms`,  form )
-        .then(res => {
-        console.log(res.data);   
+        this.props.formPosted(form);
         this.setState( prevState => {
             return { 
                newForm : {
                         ...prevState.newForm, message: "",approver:"", department:""
                        }
             }
-         }, () => console.log("On submit", this.state.newForm)
+         }, () => console.log("On submit", this.props.formState)
          )
-         this.handleClick();
-         this.setState({error:''})
-    })
-        .catch(error=>{
-            this.setState({error:'Invalid entries'})
-            console.log(error)
-        }        
-        )
+    //     axios.post(`https://secure-depths-88479.herokuapp.com/forms`,  form )
+    //     .then(res => {
+    //     console.log(res.data);   
+        
+    //      this.handleClick();
+    //      this.setState({error:''})
+    // })
+    //     .catch(error=>{
+    //         this.setState({error:'Invalid entries'})
+    //         console.log(error)
+    //     }        
+    //     )
     }   
     else{
         this.setState({error:'Empty fields not allowed'})
@@ -242,4 +247,15 @@ render() {
 }
 }
 
-export default FormPage;
+const mapStateToProps = (state)=>{
+    console.log("formState", state);
+    return {
+        formState: state.formReducer
+    }
+}
+
+const mapActionsToProps = {
+     formPosted: formPosted
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(FormPage);

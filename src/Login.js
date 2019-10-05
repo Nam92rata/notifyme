@@ -8,6 +8,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import {connect} from 'react-redux';
+import {loginRequest} from './store/actions/loginActions';
+
 class LoginPage extends Component {
     constructor(props){
         super(props)
@@ -31,7 +34,11 @@ class LoginPage extends Component {
         evt.preventDefault();
         const username= this.state.username;
         const password= this.state.password;        
-        this.validateUser(username,password);       
+        // this.validateUser(username,password);
+        this.props.loginRequest({user:{
+            username: username,
+            password: password
+        }});
         
     }
     
@@ -39,34 +46,34 @@ class LoginPage extends Component {
         this.setState(state=>({showPassword : !state.showPassword}));
     }
 
-    validateUser = (username,password) => {
-        console.log(username,password)
-        const user = {
-            username: username,
-            password:password
-          };
-        if(username && password){
-          axios.post(`https://secure-depths-88479.herokuapp.com/signIn`,  user )
-            .then(res => {
-              console.log(res);
-              console.log(res.data);
-              localStorage.setItem("username",res.data.token.user);
-              localStorage.setItem("department",res.data.token.department);
-              console.log("Validating",localStorage.getItem('username'));
-              this.props.changeLoginStateHandler();
-              this.setState({error:''})
-            })
-            .catch(error=>{
-                this.setState({error:'Invalid credentials'})
-                console.log(error)
-            }                
-            )
-        }
-        else{
-            this.setState({error:'Fields cannot be empty'})
-            console.log("Empty not allowed")
-        }
-    }
+    // validateUser = (username,password) => {
+    //     console.log(username,password)
+    //     const user = {
+    //         username: username,
+    //         password:password
+    //       };
+    //     if(username && password){
+    //       axios.post(`https://secure-depths-88479.herokuapp.com/signIn`,  user )
+    //         .then(res => {
+    //           console.log(res);
+    //           console.log(res.data);
+    //           localStorage.setItem("username",res.data.token.user);
+    //           localStorage.setItem("department",res.data.token.department);
+    //           console.log("Validating",localStorage.getItem('username'));
+    //           this.props.changeLoginStateHandler();
+    //           this.setState({error:''})
+    //         })
+    //         .catch(error=>{
+    //             this.setState({error:'Invalid credentials'})
+    //             console.log(error)
+    //         }                
+    //         )
+    //     }
+    //     else{
+    //         this.setState({error:'Fields cannot be empty'})
+    //         console.log("Empty not allowed")
+    //     }
+    // }
     
     handleSignup = () =>{
         this.setState({signup:true})
@@ -75,6 +82,14 @@ class LoginPage extends Component {
         this.setState({error:''})
         this.setState({signup:false})
     }
+
+    componentWillReceiveProps(nextProps){
+        console.log("it worked",nextProps.loginState.username)
+        if(localStorage.getItem("username")){
+            this.props.changeLoginStateHandler();
+            console.log("login Worked fine")
+        }
+      }
     render() {  
         
         if(!this.state.signup){        
@@ -163,5 +178,15 @@ class LoginPage extends Component {
 }
 }
 
+const mapStateToProps = (state)=>{
+    console.log("loginState", state);
+    return {
+        loginState: state.loginReducer
+    }
+}
 
-export default LoginPage;
+const mapActionsToProps = {
+     loginRequest: loginRequest
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(LoginPage);

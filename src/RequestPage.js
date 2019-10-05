@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
+import {connect} from 'react-redux';
+import { formUpdated } from './store/actions/formActions';
 
 class RequestPage extends React.Component {
   handleApprove = (id) =>{
@@ -18,11 +20,13 @@ class RequestPage extends React.Component {
         [{propName:'status',
         value:'Approved'} ]
     
-    axios.patch(`https://secure-depths-88479.herokuapp.com/forms/${id}`, form)
-    .then(res => console.log(res.data))
-    .catch(error=>{
-      console.log(error);
-    });
+    // axios.patch(`https://secure-depths-88479.herokuapp.com/forms/${id}`, form)
+    // .then(res => console.log(res.data))
+    // .catch(error=>{
+    //   console.log(error);
+    // });
+
+    this.props.formUpdated(id, form)
     }
 
   handleReject = (id) =>{
@@ -32,11 +36,12 @@ class RequestPage extends React.Component {
       value:'Rejected'      
   }]
   console.log(form);
-    axios.patch(`https://secure-depths-88479.herokuapp.com/forms/${id}`, form)
-    .then(res => console.log(res.data))
-    .catch(error=>{
-      console.log(error);
-    })
+    // axios.patch(`https://secure-depths-88479.herokuapp.com/forms/${id}`, form)
+    // .then(res => console.log(res.data))
+    // .catch(error=>{
+    //   console.log(error);
+    // })
+    this.props.formUpdated(id, form)
     }
   
   render() {
@@ -101,4 +106,15 @@ class RequestPage extends React.Component {
   }
 }
 
-export default RequestPage;
+const mapStateToProps = (state)=>{
+  console.log("formState", state);
+  return {
+      formState: state.formReducer
+  }
+}
+
+const mapActionsToProps = {
+   formUpdated: formUpdated
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(RequestPage);

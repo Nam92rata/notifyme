@@ -16,10 +16,12 @@ class App extends Component {
     this.setState({loggedin:false})
   }
   changeLoginStateHandler=()=>{
-      this.setState({loggedin:true});       
+      this.setState({loggedin:true});
       console.log("Fetched", localStorage.getItem('username'))
   }
+
   render() {
+    console.log("it worked render",this.state)
     if (localStorage.getItem('username')){
       return(
         <div className="App">        
@@ -49,5 +51,6 @@ class App extends Component {
     
   }
 }
+
 
 export default App;

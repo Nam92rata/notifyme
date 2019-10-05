@@ -101,7 +101,7 @@ class Home extends Component {
         const endpoint = `https://stormy-crag-26876.herokuapp.com/`;
         const socket = socketIOClient(endpoint);
         socket.on("FromAPI", data =>{
-        console.log("data", data);
+        // console.log("data", data);
         this.setState({ response: data });
         }
         )
